@@ -1,0 +1,92 @@
+body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin: 0;
+      padding: 20px;
+      gap: 30px;
+    }
+
+    .acoes-vermelho,.acoes-azul ,.jogadores, .totais, .totais-acoes{
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    #acoes-vermelho {
+        background-color: black;
+        color: white;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      background-color: red;
+      color: white;
+    }
+
+    .campo-container {
+      position: relative;
+    }
+
+    #campo {
+      width: 300px;
+      border: 2px solid #333;
+    }
+
+    .totais, .totais-acoes {
+      min-width: 150px;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+.jogadores, a {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* duas colunas iguais */
+  gap: 2px;
+  padding: 5px 10px;
+  align-content: start;
+}
+.barra-times {
+  background-color: #222;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.time-nome {
+  color: #fff;
+}
+
+.vs {
+  color: #bbb;
+}
+body {
+  margin-top: 30px;
+}
+
+
+

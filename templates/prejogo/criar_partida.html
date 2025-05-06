@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Criar Partida</title>
+   <link rel="stylesheet" href="{% static 'scout/css/criar-partida.css' %}">
+
+</head>
+<body>
+ <div class="container">
+    <h1>Informações da Partida</h1>
+    <form method="POST">
+      {% csrf_token %}
+      
+      <label for="time_casa">Time 1 (Casa):</label>
+      <input type="text" name="time_casa" id="time_casa" value="{{ time1|default:'' }}">
+
+      <label for="time_fora">Time 2 (Fora):</label>
+      <input type="text" name="time_fora" id="time_fora" value="{{ time2|default:'' }}">
+
+      <label>Jogadores do América:</label>
+      {% for i in range_11 %}
+        <input type="text" 
+               name="jogador_{{ i }}" 
+               placeholder="Jogador {{ i }}" 
+               value="{{ jogadores_america|default:''|slice:i|last }}">
+      {% endfor %}
+
+      <button type="submit">Salvar e Ir para o Scout</button>
+    </form>
+</div>
+
+</body>
+</html>

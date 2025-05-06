@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Ação</title>
+<link rel="stylesheet" href="{% static 'scout/css/estilo.css' %}">
+</head>
+<body>
+
+  <h1>Toque no campo para registrar uma ação</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="jogador" value="10"> <!-- pode mudar depois -->
+    <input type="hidden" name="pos_x" id="pos_x">
+    <input type="hidden" name="pos_y" id="pos_y">
+    <input type="hidden" name="acao" id="acao_escolhida">
+
+      
+      <div class="acoes">
+      <button type="button" class="botao-acao" onclick="selecionarAcao('Passe')">Passe</button>
+      <button type="button" class="botao-acao" onclick="selecionarAcao('Finalização')">Finalização</button>
+      <button type="button" class="botao-acao" onclick="selecionarAcao('Desarme')">Desarme</button>
+      <button type="button" class="botao-acao" onclick="selecionarAcao('Erro')">Erro</button>
+    </div>
+      
+    <div class="campo" id="campo"></div>
+
+    <button type="submit" class="botao-acao" style="background-color: green; color: white; margin-top: 20px;">Salvar Ação</button>
+  </form>
+
+  <script>
+    let acaoSelecionada = null;
+
+    function selecionarAcao(acao) {
+      acaoSelecionada = acao;
+      document.getElementById('acao_escolhida').value = acao;
+      alert('Ação selecionada: ' + acao + '. Agora toque no campo.');
+    }
+
+    document.getElementById('campo').addEventListener('click', function(e) {
+      if (!acaoSelecionada) {
+        alert('Selecione uma ação primeiro!');
+        return;
+      }
+
+      const campo = e.currentTarget;
+      const rect = campo.getBoundingClientRect();
+
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      document.getElementById('pos_x').value = x;
+      document.getElementById('pos_y').value = y;
+
+      alert(`Posição registrada: X=${x}, Y=${y}. Agora clique em "Salvar Ação".`);
+    });
+  </script>
+
+</body>
+</html>
