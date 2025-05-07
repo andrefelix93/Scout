@@ -1,91 +1,115 @@
 body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      margin: 0;
-      padding: 20px;
-      gap: 30px;
-    }
-
-    .acoes-vermelho,.acoes-azul ,.jogadores, .totais, .totais-acoes{
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    #acoes-vermelho {
-        background-color: black;
-        color: white;
-    }
-
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 10px;
-      background-color: red;
-      color: white;
-    }
-
-    .campo-container {
-      position: relative;
-    }
-
-    #campo {
-      width: 300px;
-      border: 2px solid #333;
-    }
-
-    .totais, .totais-acoes {
-      min-width: 150px;
-    }
-
-    h3 {
-      margin: 0 0 10px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin: 5px 0;
-      font-size: 16px;
-    }
-.jogadores, a {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* duas colunas iguais */
-  gap: 2px;
-  padding: 5px 10px;
-  align-content: start;
-}
-.barra-times {
-  background-color: #222;
-  color: white;
-  padding: 10px 0;
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
+  font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  align-items: flex-start;
+  margin: 0;
+  padding: 20px;
+  gap: 30px;
+}
+
+.acoes-vermelho,.acoes-azul ,.jogadores, .totais, .totais-acoes{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+#acoes-vermelho {
+    background-color: black;
+    color: white;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  background-color: red;
+  color: white;
+}
+
+.campo-container {
+  position: relative;
+}
+
+#campo {
+  width: 300px;
+  border: 2px solid #333;
+}
+
+.totais, .totais-acoes {
+  min-width: 150px;
+}
+
+h3 {
+  margin: 0 0 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 5px 0;
+  font-size: 16px;
+}
+.jogadores, a {
+display: grid;
+grid-template-columns: repeat(2, 1fr); /* duas colunas iguais */
+gap: 2px;
+padding: 5px 10px;
+align-content: start;
+}
+.barra-times {
+background-color: #222;
+color: white;
+padding: 10px 0;
+text-align: center;
+font-size: 1.5rem;
+font-weight: bold;
+position: fixed;
+top: 0;
+width: 100%;
+z-index: 1000;
+display: flex;
+justify-content: center;
+gap: 20px;
 }
 
 .time-nome {
-  color: #fff;
+color: #fff;
 }
 
 .vs {
-  color: #bbb;
+color: #bbb;
 }
 body {
-  margin-top: 30px;
+margin-top: 30px;
+}
+
+.tempo-select {
+appearance: none;
+-webkit-appearance: none;
+-moz-appearance: none;
+background-color: #f8f9fa;
+border: 2px solid #007bff;
+border-radius: 8px;
+padding: 10px 20px;
+font-size: 16px;
+color: #333;
+cursor: pointer;
+transition: all 0.3s ease;
+background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%227%22%20viewBox%3D%220%200%2012%207%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M6%207L0%200h12L6%207z%22/%3E%3C/svg%3E");
+background-repeat: no-repeat;
+background-position: right 10px center;
+background-size: 12px 7px;
+}
+
+.tempo-select:focus {
+border-color: #0056b3;
+outline: none;
+box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 

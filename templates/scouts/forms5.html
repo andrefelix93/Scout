@@ -33,7 +33,7 @@
         {% csrf_token %}
             <!-- Campo de seleção de tempo -->
    <label for="tempo">Tempo:</label>
-  <select name="tempo" id="tempo">
+  <select name="tempo" id="tempo" class="tempo-select">
     <option value="1" {% if tempo_selecionado == 1 %}selected{% endif %}>1º Tempo</option>
     <option value="2" {% if tempo_selecionado == 2 %}selected{% endif %}>2º Tempo</option>
   </select>
