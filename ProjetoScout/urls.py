@@ -20,8 +20,8 @@ from scoutApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.registrar_acao, name='registrar_acao'),
+    path('registrar/', views.registrar_acao, name='registrar_acao'),
     path('formulario/', views.formulario, name='formulario'),
     path('desfazer/', views.desfazer_ultima_acao, name='desfazer_acao'),
-    path('criar-partida/', views.criar_partida, name='criar_partida'),
+    path('', views.criar_partida, name='criar_partida'),
 ]
