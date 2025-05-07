@@ -112,5 +112,16 @@ outline: none;
 box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-
+.modal-totais {
+  display:none; 
+  position:fixed; 
+  top:10%; 
+  left:50%; 
+  transform:translateX(-50%);
+  background:#fff; 
+  padding:20px; 
+  border:1px solid #ccc; 
+  box-shadow:0 0 10px #999; 
+  z-index:1000;
+}
 
