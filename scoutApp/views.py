@@ -42,6 +42,8 @@ def formulario(request):
         pos_x = request.POST.get('pos_x')
         pos_y = request.POST.get('pos_y')
         tempo = request.POST.get('tempo')
+        # Atualiza o tempo selecionado na sessão
+        request.session['tempo_selecionado'] = int(tempo)
         acoes_sem_jogador = [
             'Escanteio OF',
             'Falta Lat OF',
@@ -50,7 +52,8 @@ def formulario(request):
             'Entrada no Último 1/3 ADV',
             'Cruzamento ADV',
             'Escanteio DEF',
-            'Falta Lat DEF'
+            'Falta Lat DEF',
+            'Gol ADV'
         ]
         if tipo_acao not in acoes_sem_jogador:
             if jogador and tipo_acao and pos_x and pos_y:
@@ -76,6 +79,51 @@ def formulario(request):
 
     # Calcula totais do banco
     scouts = Acao.objects.all()
+    totais_1T = {
+    'Finalizacao_AMERICA': scouts.filter(tipo_acao='Finalização AMÉRICA', tempo=1).count(),
+    'Desarme': scouts.filter(tipo_acao='Desarme', tempo=1).count(),
+    'Interceptacao': scouts.filter(tipo_acao='Interceptação', tempo=1).count(),
+    'Seg_Bola_Ganha': scouts.filter(tipo_acao='2ª Bola Ganha', tempo=1).count(),
+    'Entrada_no_Ultimo_1_3_AMERICA': scouts.filter(tipo_acao='Entrada no Último 1/3 AMÉRICA', tempo=1).count(),
+    'Cruzamento_AMERICA': scouts.filter(tipo_acao='Cruzamento AMÉRICA', tempo=1).count(),
+    'Escanteio_OF': scouts.filter(tipo_acao='Escanteio OF', tempo=1).count(),
+    'Falta_Lat_OF': scouts.filter(tipo_acao='Falta Lat OF', tempo=1).count(),
+    'Falta_Sofrida': scouts.filter(tipo_acao='Falta Sofrida', tempo=1).count(),
+    'Falta_Cometida': scouts.filter(tipo_acao='Falta Cometida', tempo=1).count(),
+    'Finalizacao_ADV': scouts.filter(tipo_acao='Finalização ADV', tempo=1).count(),
+    'Passe_Errado': scouts.filter(tipo_acao='Passe Errado', tempo=1).count(),
+    'Perda_de_Posse': scouts.filter(tipo_acao='Perda de Posse', tempo=1).count(),
+    'Seg_Bola_ADV': scouts.filter(tipo_acao='2ª Bola ADV', tempo=1).count(),
+    'Entrada_no_Ultimo_1_3_ADV': scouts.filter(tipo_acao='Entrada no Último 1/3 ADV', tempo=1).count(),
+    'Cruzamento_ADV': scouts.filter(tipo_acao='Cruzamento ADV', tempo=1).count(),
+    'Escanteio_DEF': scouts.filter(tipo_acao='Escanteio DEF', tempo=1).count(),
+    'Falta_Lat_DEF': scouts.filter(tipo_acao='Falta Lat DEF', tempo=1).count(),
+    'Gol_AMERICA': scouts.filter(tipo_acao='Gol AMÉRICA', tempo=1).count(),
+    'Gol_ADV': scouts.filter(tipo_acao='Gol ADV', tempo=1).count(),
+    }
+
+    totais_2T = {
+    'Finalizacao_AMERICA': scouts.filter(tipo_acao='Finalização AMÉRICA', tempo=2).count(),
+    'Desarme': scouts.filter(tipo_acao='Desarme', tempo=2).count(),
+    'Interceptacao': scouts.filter(tipo_acao='Interceptação', tempo=2).count(),
+    'Seg_Bola_Ganha': scouts.filter(tipo_acao='2ª Bola Ganha', tempo=2).count(),
+    'Entrada_no_Ultimo_1_3_AMERICA': scouts.filter(tipo_acao='Entrada no Último 1/3 AMÉRICA', tempo=2).count(),
+    'Cruzamento_AMERICA': scouts.filter(tipo_acao='Cruzamento AMÉRICA', tempo=2).count(),
+    'Escanteio_OF': scouts.filter(tipo_acao='Escanteio OF', tempo=2).count(),
+    'Falta_Lat_OF': scouts.filter(tipo_acao='Falta Lat OF', tempo=2).count(),
+    'Falta_Sofrida': scouts.filter(tipo_acao='Falta Sofrida', tempo=2).count(),
+    'Falta_Cometida': scouts.filter(tipo_acao='Falta Cometida', tempo=2).count(),
+    'Finalizacao_ADV': scouts.filter(tipo_acao='Finalização ADV', tempo=2).count(),
+    'Passe_Errado': scouts.filter(tipo_acao='Passe Errado', tempo=2).count(),
+    'Perda_de_Posse': scouts.filter(tipo_acao='Perda de Posse', tempo=2).count(),
+    'Seg_Bola_ADV': scouts.filter(tipo_acao='2ª Bola ADV', tempo=2).count(),
+    'Entrada_no_Ultimo_1_3_ADV': scouts.filter(tipo_acao='Entrada no Último 1/3 ADV', tempo=2).count(),
+    'Cruzamento_ADV': scouts.filter(tipo_acao='Cruzamento ADV', tempo=2).count(),
+    'Escanteio_DEF': scouts.filter(tipo_acao='Escanteio DEF', tempo=2).count(),
+    'Falta_Lat_DEF': scouts.filter(tipo_acao='Falta Lat DEF', tempo=2).count(),
+    'Gol_AMERICA': scouts.filter(tipo_acao='Gol AMÉRICA', tempo=2).count(),
+    'Gol_ADV': scouts.filter(tipo_acao='Gol ADV', tempo=2).count(),
+    }
 
     totais = {
         'Finalizacao_AMERICA': scouts.filter(tipo_acao='Finalização AMÉRICA').count(),
@@ -96,9 +144,11 @@ def formulario(request):
         'Cruzamento_ADV': scouts.filter(tipo_acao='Cruzamento ADV').count(),
         'Escanteio_DEF': scouts.filter(tipo_acao='Escanteio DEF').count(),
         'Falta_Lat_DEF': scouts.filter(tipo_acao='Falta Lat DEF').count(),
+        'Gol_AMERICA': scouts.filter(tipo_acao='Gol AMÉRICA').count(),
+        'Gol_ADV': scouts.filter(tipo_acao='Gol ADV').count(),
     }
 
-    return render(request, 'scouts/forms5.html', {'totais': totais, 'jogadores': jogadores, 'time1': time1, 'time2':time2, 'tempo_selecionado':tempo_selecionado})
+    return render(request, 'scouts/forms5.html', {'totais': totais, 'totais_1T': totais_1T,'totais_2T': totais_2T,'jogadores': jogadores, 'time1': time1, 'time2':time2, 'tempo_selecionado':tempo_selecionado})
 
 
 def desfazer_ultima_acao(request):

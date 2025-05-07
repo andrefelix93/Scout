@@ -21,4 +21,4 @@ class Acao(models.Model):
     partida = models.ForeignKey(Partida, on_delete=models.CASCADE)  # <- NOVO
 
     def __str__(self):
-        return f"{self.jogador} - {self.tipo_acao} em ({self.pos_x}, {self.pos_y}) no {self.tempo}"
+        return f"{self.jogador} - {self.tipo_acao} em ({self.pos_x}, {self.pos_y}) no {self.tempo}, jogo: {self.partida}"

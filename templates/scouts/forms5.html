@@ -9,7 +9,7 @@
 <body>
 <div class="barra-times">
   <span class="time-nome">{{ time1 }}</span>
-  <span class="vs">x</span>
+  <span class="vs">{{totais.Gol_AMERICA}}x{{totais.Gol_ADV}}</span>
   <span class="time-nome">{{ time2 }}</span>
 </div>
 
@@ -23,7 +23,7 @@
             <button id="jogador-{{ jogador }}" onclick="selecionarJogador('{{ jogador }}')">{{ jogador }}</button>
         {% endfor %}
         <a href="{% url 'criar_partida' %}" >
-          <button style="background-color: orange; color: white;">Substituição</button>
+          <button style="background-color: orange; ">Substituição</button>
         </a>
   </div>
   <!-- Campo -->
@@ -62,6 +62,7 @@
         <button id="escanteio-of" onclick="selecionarAcao('Escanteio OF')" style="background-color: #dc3545; color: white;">Escanteio OF</button>
         <button onclick="selecionarAcao('Falta Lat OF')" style="background-color: #dc3545; color: white;">Falta Lat OF</button>
         <button onclick="selecionarAcao('Falta Sofrida')" style="background-color: #dc3545; color: white;">Falta Sofrida</button>
+        <button onclick="selecionarAcao('Gol AMÉRICA')" style="background-color: #dc3545; color: white;">Gol AMÉRICA</button>
       </div>
 
       <!-- Ações ADVERSAS -->
@@ -76,39 +77,130 @@
         <button onclick="selecionarAcao('Escanteio DEF')" style="background-color: #007bff; color: white;">Escanteio DEF</button>
         <button onclick="selecionarAcao('Falta Lat DEF')" style="background-color: #007bff; color: white;">Falta Lat DEF</button>
         <button onclick="selecionarAcao('Falta Cometida')" style="background-color: #007bff; color: white;">Falta Cometida</button>
+        <button onclick="selecionarAcao('Gol ADV')" style="background-color: #007bff; color: white;">Gol ADV</button>
       </div>
 
     </div>
 
   </div>
-
-
-      <h3 style="color: Black;">Totais:</h3>
+  <div>
     <ul>
-      <li>Finalização AMÉRICA: <span id="total-finalizacao-america">{{ totais.Finalizacao_AMERICA }}</span></li>
-      <li>Desarme: <span id="total-desarme">{{ totais.Desarme }}</span></li>
-      <li>Interceptação: <span id="total-interceptacao">{{ totais.Interceptacao }}</span></li>
-      <li>2ª Bola Ganha: <span id="total-2bolaganha">{{ totais.Seg_Bola_Ganha }}</span></li>
-      <li>Entrada no Último 1/3 AMÉRICA: <span id="total-ultimo-terco-america">{{ totais.Entrada_no_Ultimo_1_3_AMERICA }}</span></li>
-      <li>Cruzamento AMÉRICA: <span id="total-cruzamento-america">{{ totais.Cruzamento_AMERICA }}</span></li>
-      <li>Escanteio OF: <span id="total-escanteio-of">{{ totais.Escanteio_OF }}</span></li>
-      <li>Falta Lat OF: <span id="total-falta-lat-of">{{ totais.Falta_Lat_OF }}</span></li>
-      <li>Falta Sofrida: <span id="total-falta-sofrida">{{ totais.Falta_Sofrida }}</span></li>
-      <li>Falta Cometida: <span id="total-falta-cometida">{{ totais.Falta_Cometida }}</span></li>
-      <li>Finalização ADV: <span id="total-finalizacao-adv">{{ totais.Finalizacao_ADV }}</span></li>
-      <li>Passe Errado: <span id="total-passe-errado">{{ totais.Passe_Errado }}</span></li>
-      <li>Perda de Posse: <span id="total-perda-posse">{{ totais.Perda_de_Posse }}</span></li>
-      <li>2ª Bola ADV: <span id="total-2bola-adv">{{ totais.Seg_Bola_ADV }}</span></li>
-      <li>Entrada no Último 1/3 ADV: <span id="total-ultimo-terco-adv">{{ totais.Entrada_no_Ultimo_1_3_ADV }}</span></li>
-      <li>Cruzamento ADV: <span id="total-cruzamento-adv">{{ totais.Cruzamento_ADV }}</span></li>
-      <li>Escanteio DEF: <span id="total-escanteio-def">{{ totais.Escanteio_DEF }}</span></li>
-      <li>Falta Lat DEF: <span id="total-falta-lat-def">{{ totais.Falta_Lat_DEF }}</span></li>
+      <li>
+        <button onclick="abrirTotais1T()">Totais 1º Tempo</button>
+      </li>
+      <li>
+        <button onclick="abrirTotais2T()">Totais 2º Tempo</button>
+      </li>
+      <li>
+        <button onclick="abrirTotais()">  Totais Gerais  </button>
+      </li>
+      <li>
+        <form class="desfazer-form" action="{% url 'desfazer_acao' %}" method="post" style="margin-top: 20px;">
+          {% csrf_token %}
+          <button type="submit">Desfazer Ação</button>
+        </form>
+      </li>
     </ul>
 
-    <form class="desfazer-form" action="{% url 'desfazer_acao' %}" method="post" style="margin-top: 20px;">
-      {% csrf_token %}
-      <button type="submit">Desfazer Ação</button>
-    </form>
+  </div>
+<!-- Modal (inicialmente escondido) -->
+<div id="modalTotais1T" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%);
+    background:#fff; padding:20px; border:1px solid #ccc; box-shadow:0 0 10px #999; z-index:1000;">
+    
+    <h3 style="color: Black;">Total 1º Tempo:</h3>
+    <ul>
+      <li>Finalização AMÉRICA: <span id="total-1t-finalizacao-america">{{ totais_1T.Finalizacao_AMERICA }}</span></li>
+      <li>Desarme: <span id="total-desarme">{{ totais_1T.Desarme }}</span></li>
+      <li>Interceptação: <span id="total-interceptacao">{{ totais_1T.Interceptacao }}</span></li>
+      <li>2ª Bola Ganha: <span id="total-2bolaganha">{{ totais_1T.Seg_Bola_Ganha }}</span></li>
+      <li>Entrada no Último 1/3 AMÉRICA: <span id="total-ultimo-terco-america">{{ totais_1T.Entrada_no_Ultimo_1_3_AMERICA }}</span></li>
+      <li>Cruzamento AMÉRICA: <span id="total-cruzamento-america">{{ totais_1T.Cruzamento_AMERICA }}</span></li>
+      <li>Escanteio OF: <span id="total-escanteio-of">{{ totais_1T.Escanteio_OF }}</span></li>
+      <li>Falta Lat OF: <span id="total-falta-lat-of">{{ totais_1T.Falta_Lat_OF }}</span></li>
+      <li>Falta Sofrida: <span id="total-falta-sofrida">{{ totais_1T.Falta_Sofrida }}</span></li>
+      <li>Falta Cometida: <span id="total-falta-cometida">{{ totais_1T.Falta_Cometida }}</span></li>
+      <li>Finalização ADV: <span id="total-finalizacao-adv">{{ totais_1T.Finalizacao_ADV }}</span></li>
+      <li>Passe Errado: <span id="total-passe-errado">{{ totais_1T.Passe_Errado }}</span></li>
+      <li>Perda de Posse: <span id="total-perda-posse">{{ totais_1T.Perda_de_Posse }}</span></li>
+      <li>2ª Bola ADV: <span id="total-2bola-adv">{{ totais_1T.Seg_Bola_ADV }}</span></li>
+      <li>Entrada no Último 1/3 ADV: <span id="total-ultimo-terco-adv">{{ totais_1T.Entrada_no_Ultimo_1_3_ADV }}</span></li>
+      <li>Cruzamento ADV: <span id="total-cruzamento-adv">{{ totais_1T.Cruzamento_ADV }}</span></li>
+      <li>Escanteio DEF: <span id="total-escanteio-def">{{ totais_1T.Escanteio_DEF }}</span></li>
+      <li>Falta Lat DEF: <span id="total-falta-lat-def">{{ totais_1T.Falta_Lat_DEF }}</span></li>
+      <li>Gol AMÉRICA: <span id="total-gol-america">{{ totais_1T.Gol_AMERICA }}</span></li>
+      <li>Gol ADV: <span id="total-gol-adv">{{ totais_1T.Gol_ADV }}</span></li>
+    </ul>
+
+  <button onclick="fecharTotais1T()">Fechar</button>
+</div>
+
+
+
+<!-- Modal (inicialmente escondido) -->
+<div id="modalTotais2T" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%);
+    background:#fff; padding:20px; border:1px solid #ccc; box-shadow:0 0 10px #999; z-index:1000;">
+    
+    <h3 style="color: Black;">Total 2º Tempo:</h3>
+  <ul>
+    <li>Finalização AMÉRICA: <span id="total-1t-finalizacao-america">{{ totais_2T.Finalizacao_AMERICA }}</span></li>
+    <li>Desarme: <span id="total-desarme">{{ totais_2T.Desarme }}</span></li>
+    <li>Interceptação: <span id="total-interceptacao">{{ totais_2T.Interceptacao }}</span></li>
+    <li>2ª Bola Ganha: <span id="total-2bolaganha">{{ totais_2T.Seg_Bola_Ganha }}</span></li>
+    <li>Entrada no Último 1/3 AMÉRICA: <span id="total-ultimo-terco-america">{{ totais_2T.Entrada_no_Ultimo_1_3_AMERICA }}</span></li>
+    <li>Cruzamento AMÉRICA: <span id="total-cruzamento-america">{{ totais_2T.Cruzamento_AMERICA }}</span></li>
+    <li>Escanteio OF: <span id="total-escanteio-of">{{ totais_2T.Escanteio_OF }}</span></li>
+    <li>Falta Lat OF: <span id="total-falta-lat-of">{{ totais_2T.Falta_Lat_OF }}</span></li>
+    <li>Falta Sofrida: <span id="total-falta-sofrida">{{ totais_2T.Falta_Sofrida }}</span></li>
+    <li>Falta Cometida: <span id="total-falta-cometida">{{ totais_2T.Falta_Cometida }}</span></li>
+    <li>Finalização ADV: <span id="total-finalizacao-adv">{{ totais_2T.Finalizacao_ADV }}</span></li>
+    <li>Passe Errado: <span id="total-passe-errado">{{ totais_2T.Passe_Errado }}</span></li>
+    <li>Perda de Posse: <span id="total-perda-posse">{{ totais_2T.Perda_de_Posse }}</span></li>
+    <li>2ª Bola ADV: <span id="total-2bola-adv">{{ totais_2T.Seg_Bola_ADV }}</span></li>
+    <li>Entrada no Último 1/3 ADV: <span id="total-ultimo-terco-adv">{{ totais_2T.Entrada_no_Ultimo_1_3_ADV }}</span></li>
+    <li>Cruzamento ADV: <span id="total-cruzamento-adv">{{ totais_2T.Cruzamento_ADV }}</span></li>
+    <li>Escanteio DEF: <span id="total-escanteio-def">{{ totais_2T.Escanteio_DEF }}</span></li>
+    <li>Falta Lat DEF: <span id="total-falta-lat-def">{{ totais_2T.Falta_Lat_DEF }}</span></li>
+    <li>Gol AMÉRICA: <span id="total-gol-america">{{ totais_2T.Gol_AMERICA }}</span></li>
+    <li>Gol ADV: <span id="total-gol-adv">{{ totais_2T.Gol_ADV }}</span></li>
+  </ul>
+
+  <button onclick="fecharTotais2T()">Fechar</button>
+</div>
+<!-- Botão para abrir a janela -->
+
+
+<!-- Modal (inicialmente escondido) -->
+<div id="modalTotais" style="display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%);
+    background:#fff; padding:20px; border:1px solid #ccc; box-shadow:0 0 10px #999; z-index:1000;">
+    
+  <h3 style="color: Black;">Totais:</h3>
+  <ul>
+    <li>Finalização AMÉRICA: {{ totais.Finalizacao_AMERICA }}</li>
+    <li>Desarme: {{ totais.Desarme }}</li>
+    <li>Interceptação: {{ totais.Interceptacao }}</li>
+    <li>2ª Bola Ganha: {{ totais.Seg_Bola_Ganha }}</li>
+    <li>Entrada no Último 1/3 AMÉRICA: {{ totais.Entrada_no_Ultimo_1_3_AMERICA }}</li>
+    <li>Cruzamento AMÉRICA: {{ totais.Cruzamento_AMERICA }}</li>
+    <li>Escanteio OF: {{ totais.Escanteio_OF }}</li>
+    <li>Falta Lat OF: {{ totais.Falta_Lat_OF }}</li>
+    <li>Falta Sofrida: {{ totais.Falta_Sofrida }}</li>
+    <li>Falta Cometida: {{ totais.Falta_Cometida }}</li>
+    <li>Finalização ADV: {{ totais.Finalizacao_ADV }}</li>
+    <li>Passe Errado: {{ totais.Passe_Errado }}</li>
+    <li>Perda de Posse: {{ totais.Perda_de_Posse }}</li>
+    <li>2ª Bola ADV: {{ totais.Seg_Bola_ADV }}</li>
+    <li>Entrada no Último 1/3 ADV: {{ totais.Entrada_no_Ultimo_1_3_ADV }}</li>
+    <li>Cruzamento ADV: {{ totais.Cruzamento_ADV }}</li>
+    <li>Escanteio DEF: {{ totais.Escanteio_DEF }}</li>
+    <li>Falta Lat DEF: {{ totais.Falta_Lat_DEF }}</li>
+    <li>Gol AMÉRICA: {{ totais.Gol_AMERICA }}</li>
+    <li>Gol ADV: {{ totais.Gol_ADV }}</li>
+  </ul>
+
+  <button onclick="fecharTotais()">Fechar</button>
+</div>
+
+    
   </div>
 
 </div>

@@ -112,4 +112,27 @@ function substituirJogador() {
 
 }
 
+function abrirTotais() {
+    document.getElementById("modalTotais").style.display = "block";
+  }
+
+function fecharTotais() {
+    document.getElementById("modalTotais").style.display = "none";
+  }
+
+  function abrirTotais1T() {
+    document.getElementById("modalTotais1T").style.display = "block";
+  }
+
+function fecharTotais1T() {
+    document.getElementById("modalTotais1T").style.display = "none";
+  }
+
+  function abrirTotais2T() {
+    document.getElementById("modalTotais2T").style.display = "block";
+  }
+
+function fecharTotais2T() {
+    document.getElementById("modalTotais2T").style.display = "none";
+  }
 
