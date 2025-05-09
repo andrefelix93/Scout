@@ -3,14 +3,14 @@
     "buildCommand": "./build.sh",
     "builds": [
       {
-        "src": "manager/wsgi.py",
+        "src": "ProjetoScout/wsgi.py",
         "use": "@vercel/python"
       }
     ],
     "routes": [    
       {
         "src": "/(.*)",
-        "dest": "manager/wsgi.py"
+        "dest": "ProjetoScout/wsgi.py"
       }
     ]
   }
